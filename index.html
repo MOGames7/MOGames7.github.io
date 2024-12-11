@@ -1,0 +1,105 @@
+import processing.sound.*;
+SoundFile boing, ding;
+PImage fox, bg, bg2, ice, nice;
+int bgx; //no assinged value? starts off at zero
+int y, Vy;
+int px, py;    //will change to an array
+boolean gameState;
+int count;
+boolean countOn;
+
+void setup(){
+  size(600,600);
+  boing = new SoundFile(this, "Boing-SE.mp3");
+  ding = new SoundFile(this, "Ding-SE.mp3");
+  fox = loadImage("Running-Snow-Fox.png");
+  bg = loadImage("Background.png");
+  bg2 = loadImage("Background(flip).png");
+  ice = loadImage("icicle-image.png");
+  nice = loadImage("Icicle-image-flipped.png");
+  y = 0;
+  Vy = 0;
+  count = 0;
+  gameState = true;
+  
+  px = width;
+  py = int(random(210,height-210));
+}
+
+void draw(){
+  if(gameState){
+    drawBG();
+    drawFox();
+    checkCollision();
+    counter();
+    
+    px = px - 2;
+    fill(255, 255, 0);
+//    rect(px+20, py, 10, 150); //safezone
+    if(px < -120) {
+      px = width + 50;
+      py = int(random(210,height-210));
+    }
+//    fill(255, 0, 0);
+//    circle(px+25, py+75, 10);
+    image(ice, px-69, py-400);
+    image(nice, px-69, py+150);
+  }
+}
+
+void mousePressed() {
+  Vy = -10 ;
+  boing.play();
+  if(gameState == false) {
+    Vy = 0;
+    gameState = true;
+    countOn = true;
+    px = width;
+    py = int(random(210,height-210));
+    count = 0;
+    //add a sound for when the counter goes up
+  }
+}
+
+
+void drawFox() {
+  image(fox, 50, y);
+  y += Vy;
+  Vy++;
+  if(y > height-fox.height) {
+    y = height-fox.height;
+  }
+}
+
+void drawBG(){
+  image(bg, bgx, 0);
+  image(bg2, bgx + bg.width, 0);
+  image(bg, bgx+2*bg.width, 0);
+  bgx -= 1; // bgx = bgx - 1
+  if(bgx < -2*bg.width){
+    bgx = 0;
+  }
+}
+
+void checkCollision() {
+  //BOTTOM
+  if(px < 50 + fox.width && px > 25 && y - py > 105){
+    gameState = false;
+    countOn = false;
+  }
+  //TOP
+  if(px < 50 + fox.width && px > 25 && py - y > 25){
+    gameState = false;
+    countOn = false;
+  }
+}
+
+void counter() {
+  if(px == 50) {
+    count = count + 1;
+    ding.play();
+  }
+  textSize(120);
+  fill(0, 408, 612);
+  text(count, 50, 100);
+}
