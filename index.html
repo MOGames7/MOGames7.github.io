@@ -14,8 +14,8 @@
     
     <script type="text/processing">
     
-      import processing.sound.*;
-      SoundFile boing, ding;
+      //import processing.sound.*;
+      //SoundFile boing, ding;
       PImage fox, bg, bg2, ice, nice;
       int bgx; //no assinged value? starts off at zero
       int y, Vy;
@@ -26,8 +26,8 @@
       
       void setup(){
         size(600,600);
-        boing = new SoundFile(this, "Boing-SE.mp3");
-        ding = new SoundFile(this, "Ding-SE.mp3");
+        //boing = new SoundFile(this, "Boing-SE.mp3");
+        //ding = new SoundFile(this, "Ding-SE.mp3");
         fox = loadImage("Running-Snow-Fox.png");
         bg = loadImage("Background.png");
         bg2 = loadImage("Background(flip).png");
@@ -65,7 +65,7 @@
       
       void mousePressed() {
         Vy = -10 ;
-        boing.play();
+        //boing.play();
         if(gameState == false) {
           Vy = 0;
           gameState = true;
@@ -113,7 +113,7 @@
       void counter() {
         if(px == 50) {
           count = count + 1;
-          ding.play();
+          //ding.play();
         }
         textSize(120);
         fill(0, 408, 612);
